@@ -1,0 +1,46 @@
+﻿@page "/quizcard"
+@inherits QuizCardBase
+@using Quizzing.Components
+
+<div class="container">
+    <div class="quiz">
+        @if (questionIndex < Questions.Count)
+        {
+            <div class="app-title">@Questions[questionIndex].QuestionImageName</div>
+            <div class="app-title">
+                <img width="500" src="/questions/@Questions[questionIndex].QuestionImageName" />
+            </div>
+            <div class="quiz-header">
+                @Questions[questionIndex].QuestionTitle
+            </div>
+            <div class="quiz-body">
+                @foreach (var option in Questions[questionIndex].Options)
+                {
+                    <OptionCard Option="@option" OnOptionSelected="@OptionSelected"></OptionCard>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="app-title">
+                @if (score > (Questions.Count / 2))
+                {
+                    <img src="/prize--v1.png"/>
+                }
+                else
+                {
+                    <img src="/lose.png"/>
+                }
+            </div>
+            <div class="app-title">
+                @(score > (Questions.Count / 2) ? "Təbriklər" : "Növbəti dəfə daha yaxşı çalışın")
+            </div>
+            <div class="quiz-header">
+                <b>@score doğru | @(Questions.Count - score) yanlış</b>
+            </div>
+            <div class="quiz-footer">
+                <button class="next-btn" @onclick="@RestartQuiz">Yenidən yoxla</button>
+            </div>
+        }
+    </div>
+</div>
